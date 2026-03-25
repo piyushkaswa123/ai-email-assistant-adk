@@ -143,6 +143,4 @@ Try these in CLI or UI:
 
 ---
 
-## 📽️ Demo
 
-(Attach demo video link here)
