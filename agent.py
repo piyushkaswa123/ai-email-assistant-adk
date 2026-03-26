@@ -1,5 +1,5 @@
 from google.adk.agents.llm_agent import Agent
-from .tools import get_emails, send_email, summarize_emails
+from .tools import get_emails, send_email
 
 root_agent = Agent(
     model="gemini-2.5-flash",
@@ -21,5 +21,5 @@ root_agent = Agent(
     - Keep responses clean and structured
     """,
 
-    tools=[get_emails, send_email, summarize_emails],
+    tools=[get_emails, send_email],
 )

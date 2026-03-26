@@ -93,17 +93,17 @@ def send_email(to_email: str, subject: str, body: str) -> dict:
             "message": response.text
         }
 
-def summarize_emails(emails: list) -> dict:
-    """Summarizes list of emails"""
+# def summarize_emails(emails: list) -> dict:
+#     """Summarizes list of emails"""
     
-    if not emails:
-        return {"status": "success", "summary": "No emails found."}
+#     if not emails:
+#         return {"status": "success", "summary": "No emails found."}
 
-    summary = []
-    for email in emails:
-        summary.append(f"{email['sender']}: {email['subject']}")
+#     summary = []
+#     for email in emails:
+#         summary.append(f"{email['sender']}: {email['subject']}")
 
-    return {
-        "status": "success",
-        "summary": "\n".join(summary)
-    }
+#     return {
+#         "status": "success",
+#         "summary": "\n".join(summary)
+#     }
