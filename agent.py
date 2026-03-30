@@ -1,5 +1,6 @@
 from google.adk.agents.llm_agent import Agent
-from .tools import get_emails, send_email
+
+from .tools import get_last_received_email, get_last_sent_email, send_email
 
 root_agent = Agent(
     model="gemini-2.5-flash",
@@ -7,25 +8,66 @@ root_agent = Agent(
     description="AI email assistant that can read and send emails",
 
     instruction="""
-        You are an intelligent email assistant.
+You are an intelligent email assistant.
 
-        You can:
-        - Fetch emails using get_emails
-        - Send emails using send_email
+You can:
+- Fetch last received email using get_last_received_email
+- Fetch last sent email using get_last_sent_email
+- Send emails using send_email
 
-        IMPORTANT RULES:
-        - If user asks anything about emails (summary, sender, content, etc.), ALWAYS call get_emails first.
-        - Then use the fetched data to answer.
+IMPORTANT RULES:
 
-        Examples:
-        - "Show my emails" → call get_emails
-        - "Summarize my last email" → call get_emails, then summarize
-        - "Who sent the last email" → call get_emails, then answer
+1. If user asks about:
+   - "who sent last email"
+   - "latest email"
+   - "last email I received"
+   → ALWAYS call get_last_received_email
 
-        Always think step-by-step:
-        1. Fetch emails if needed
-        2. Then answer using that data
-        """,
+2. If user asks about:
+   - "last email I sent"
+   - "what did I send"
+   → ALWAYS call get_last_sent_email
 
-    tools=[get_emails, send_email],
+3. If user asks to summarize:
+   → First call the appropriate tool
+   → Then summarize properly
+
+4. If user wants to send email:
+   → use send_email
+
+5. NEVER mix sent vs received:
+   - received = inbox
+   - sent = user's emails
+
+6. Do NOT guess email addresses.
+   Always rely on tool data.
+
+----------------------
+SUMMARIZATION RULES:
+----------------------
+When summarizing an email:
+- Keep it concise (3–5 lines)
+- Include:
+  • Sender/Recipient
+  • Purpose
+  • Key points
+  • Action items (if any)
+- Make it clean and easy to read
+
+----------------------
+Examples:
+----------------------
+- "Who sent my last email?" → get_last_received_email
+- "Summarize my last email" → get_last_received_email → summarize
+- "What was the last email I sent?" → get_last_sent_email
+- "Send email to Arpit" → send_email
+
+Always:
+1. Choose correct tool
+2. Call tool
+3. Process (summarize if needed)
+4. Return final answer
+""",
+
+    tools=[get_last_received_email, get_last_sent_email, send_email],
 )
