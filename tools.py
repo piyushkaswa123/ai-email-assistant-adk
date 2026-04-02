@@ -36,7 +36,7 @@ def get_last_received_email(sender_name: str = None):
 
     messages = data["value"]
 
-    # 🔥 If sender_name provided → filter
+    #  If sender_name provided → filter
     if sender_name:
         sender_name = sender_name.lower()
 
@@ -58,7 +58,7 @@ Body:
 """
         return f"No emails found from {sender_name.title()}."
 
-    # 🔥 Default → latest email
+    #  Default → latest email
     msg = messages[0]
 
     sender_info = msg.get("from", {})
@@ -119,12 +119,12 @@ def send_email(to, subject, body):
 
     to = to.lower()
 
-    # 🔥 If input is email → use directly
+    #  If input is email → use directly
     if "@" in to:
         to_email = to
         to_name = to.split("@")[0]
     else:
-        # 🔥 Otherwise use contacts
+        #  Otherwise use contacts
         if to not in contacts:
             return f"I don’t have {to}'s email yet. Ask me to fetch their email first."
 
